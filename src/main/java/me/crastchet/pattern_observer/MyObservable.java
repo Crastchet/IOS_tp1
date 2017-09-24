@@ -4,10 +4,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.Timer;
 
 import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
 
 import me.crastchet.filters.BundleFilter;
 
@@ -15,19 +17,21 @@ import me.crastchet.filters.BundleFilter;
 
 public class MyObservable extends Observable {
 	
+	private BundleContext context;
 	private File directory;			//directory to watch
-	private ArrayList<File> files;
+	private File[] files, newFiles;
 	private ArrayList<Bundle> bundles;
 	private BundleFilter filter;	//enables to filter bundle files (at least .jar files)
 	private Timer timer;			//enables to do the check every X seconds
 
 	
-	public MyObservable( String path ) {
+	public MyObservable( BundleContext ctxt , String path ) {
 		super();
+		context = ctxt;
 		directory = new File( path );
 		System.out.println(directory.getAbsolutePath());
 		System.out.println(directory.isDirectory());
-		files = new ArrayList<File>();
+		files = directory.listFiles();
 		//bundles = new ArrayList<Bundle>();
 		
 		filter = new BundleFilter();
@@ -35,14 +39,18 @@ public class MyObservable extends Observable {
 			
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				updateFilesList();				
+				//updateFilesList();
+				newFiles = directory.listFiles( filter );
+				if( !files.equals( newFiles ) )
+					notifyObservers();
+				files = newFiles.clone();
 			}
 		});
 		
 	}
 	
-	
-	public void updateFilesList() {
+/*	
+	public void updateFilesList() { // !!! CHECKER LES DATES AUSSI !!!
 		//if there is no file in our list nor in our directory, we can stop here
 		if( files.isEmpty() && directory.listFiles( filter ).length == 0 )
 			return;
@@ -59,7 +67,7 @@ public class MyObservable extends Observable {
 				tmpList.add( f );
 		}
 		files.addAll( tmpList );
-		
+
 		tmpList.clear();
 		//remove the missing directory files
 		boolean foundInDirectory = false;
@@ -77,6 +85,7 @@ public class MyObservable extends Observable {
 			notifyObservers();
 		
 	}
+*/
 
 	@Override
 	public void init() {
@@ -88,6 +97,16 @@ public class MyObservable extends Observable {
 		timer.stop();
 	}
 
+	public File[] getFiles() {
+		return this.files;
+	}
 	
+	public File[] getNewFiles() {
+		return this.newFiles;
+	}
+	
+	public BundleContext getContext() {
+		return this.context;
+	}
 
 }
