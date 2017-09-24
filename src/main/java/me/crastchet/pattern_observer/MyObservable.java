@@ -13,7 +13,7 @@ import org.osgi.framework.BundleContext;
 
 import me.crastchet.filters.BundleFilter;
 
-
+///////// FAIRE UNE MAP <File, Bundle>, ça sera beaucoup plus simple et propre
 
 public class MyObservable extends Observable {
 	
@@ -29,10 +29,10 @@ public class MyObservable extends Observable {
 		super();
 		context = ctxt;
 		directory = new File( path );
-		System.out.println(directory.getAbsolutePath());
-		System.out.println(directory.isDirectory());
+		//System.out.println(directory.getAbsolutePath());
+		//System.out.println(directory.isDirectory());
 		files = directory.listFiles();
-		//bundles = new ArrayList<Bundle>();
+		bundles = new ArrayList<Bundle>();
 		
 		filter = new BundleFilter();
 		timer = new Timer(1000, new ActionListener() {
@@ -96,6 +96,10 @@ public class MyObservable extends Observable {
 	public void stop() {
 		timer.stop();
 	}
+	
+	public void addBundle(Bundle bundle) {
+		bundles.add( bundle );
+	}
 
 	public File[] getFiles() {
 		return this.files;
@@ -103,6 +107,10 @@ public class MyObservable extends Observable {
 	
 	public File[] getNewFiles() {
 		return this.newFiles;
+	}
+	
+	public ArrayList<Bundle> getBundles() {
+		return this.bundles;
 	}
 	
 	public BundleContext getContext() {

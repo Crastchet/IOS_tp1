@@ -2,6 +2,7 @@ package me.crastchet.pattern_observer;
 
 import java.io.File;
 
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleException;
 
 
@@ -26,9 +27,9 @@ public class AddBundleObserver implements Observer {
 	
 	public void installBundle(MyObservable obs, File f) {
 		try {
-			System.out.println(f.getAbsolutePath());
-			obs.getContext().installBundle( " file:///" + f.getAbsolutePath() );
-			System.out.println( "Bundle " + f.getName() + " installed !");
+			Bundle bundle = obs.getContext().installBundle( " file:///" + f.getAbsolutePath() );
+			obs.addBundle( bundle );
+			System.out.println( "Bundle from " + f.getName() + " installed !");
 		} catch (BundleException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
