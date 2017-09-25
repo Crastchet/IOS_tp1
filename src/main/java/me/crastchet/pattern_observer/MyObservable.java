@@ -4,7 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.Timer;
 
@@ -19,8 +21,11 @@ public class MyObservable extends Observable {
 	
 	private BundleContext context;
 	private File directory;			//directory to watch
-	private File[] files, newFiles;
-	private ArrayList<Bundle> bundles;
+	
+	private File[]  newFiles;
+//	private ArrayList<Bundle> bundles;
+	private HashMap<String, Bundle> bundles;
+	
 	private BundleFilter filter;	//enables to filter bundle files (at least .jar files)
 	private Timer timer;			//enables to do the check every X seconds
 
@@ -31,8 +36,9 @@ public class MyObservable extends Observable {
 		directory = new File( path );
 		//System.out.println(directory.getAbsolutePath());
 		//System.out.println(directory.isDirectory());
-		files = directory.listFiles();
-		bundles = new ArrayList<Bundle>();
+		//files = directory.listFiles();
+		//bundles = new ArrayList<Bundle>();
+		bundles = new HashMap<String, Bundle>();
 		
 		filter = new BundleFilter();
 		timer = new Timer(1000, new ActionListener() {
@@ -41,9 +47,7 @@ public class MyObservable extends Observable {
 				// TODO Auto-generated method stub
 				//updateFilesList();
 				newFiles = directory.listFiles( filter );
-				if( !files.equals( newFiles ) )
-					notifyObservers();
-				files = newFiles.clone();
+				notifyObservers();
 			}
 		});
 		
@@ -97,20 +101,36 @@ public class MyObservable extends Observable {
 		timer.stop();
 	}
 	
-	public void addBundle(Bundle bundle) {
+	/*public void addBundle(Bundle bundle) {
 		bundles.add( bundle );
-	}
+	}*/
+	
+	/*public void addBundle(File file, Bundle bundle) {
+		bundles.put( file , bundle );
+	}*/
 
-	public File[] getFiles() {
+	/*public File[] getFiles() {
 		return this.files;
+	}*/
+	
+	public Set<String> getBundleFileNames()  {
+		return this.bundles.keySet();
 	}
 	
 	public File[] getNewFiles() {
 		return this.newFiles;
 	}
 	
-	public ArrayList<Bundle> getBundles() {
+	/*public ArrayList<Bundle> getBundles() {
 		return this.bundles;
+	}*/
+	
+	public Bundle[] getBundles() {
+		return (Bundle[]) this.bundles.values().toArray();
+	}
+	
+	public Bundle getBundle(String s) {
+		return this.bundles.get( s );
 	}
 	
 	public BundleContext getContext() {
