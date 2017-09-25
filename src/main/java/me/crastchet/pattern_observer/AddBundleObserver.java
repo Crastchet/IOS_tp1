@@ -23,8 +23,8 @@ public class AddBundleObserver implements Observer {
 			Set<String> currentFiles = ( (MyObservable) obs ).getBundleFileNames();
 			boolean foundInFiles = false;
 			for(File f : newFiles) {
-				for(File f2 : ( (MyObservable) obs ).getFiles())
-					if( foundInFiles = f.equals( f2 ) )
+				for(String s : currentFiles)
+					if( foundInFiles = f.getName().compareTo( s ) == 0 )
 						break;
 				if( !foundInFiles )
 					installBundle( (MyObservable) obs , f );
@@ -37,7 +37,7 @@ public class AddBundleObserver implements Observer {
 	public void installBundle(MyObservable obs, File f) {
 		try {
 			Bundle bundle = obs.getContext().installBundle( " file:///" + f.getAbsolutePath() );
-			obs.addBundle( f, bundle );
+			obs.addBundle( f.getName() , bundle );
 			System.out.println( "Bundle from " + f.getName() + " installed !");
 			bundle.start();
 		} catch (BundleException e) {

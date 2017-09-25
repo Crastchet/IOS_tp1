@@ -105,9 +105,13 @@ public class MyObservable extends Observable {
 		bundles.add( bundle );
 	}*/
 	
-	/*public void addBundle(File file, Bundle bundle) {
-		bundles.put( file , bundle );
-	}*/
+	public void addBundle(String name, Bundle bundle) {
+		this.bundles.put( name , bundle );
+	}
+	
+	public void removeBundle(String name) {
+		this.bundles.remove( name );
+	}
 
 	/*public File[] getFiles() {
 		return this.files;

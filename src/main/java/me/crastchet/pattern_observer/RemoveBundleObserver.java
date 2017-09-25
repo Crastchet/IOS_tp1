@@ -32,7 +32,7 @@ public class RemoveBundleObserver implements Observer {
 	
 	private void uninstallBundle(MyObservable obs, String s) { // right now, the bundles are removed depending on their file name
 		Bundle bundle =  obs.getBundle( s ); // here is where we're gonna find the File, according to its name
-		if( bundle == null) {
+		 if( bundle == null) {
 			System.out.println( "That is weird, we can't find the bundle in progress" );
 			return;
 		}
@@ -40,6 +40,7 @@ public class RemoveBundleObserver implements Observer {
 			bundle.stop();
 			bundle.uninstall();
 			System.out.println( "Bundle " + bundle.getSymbolicName() + " uninstalled !" );
+			obs.removeBundle( s );
 		} catch (BundleException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
