@@ -19,11 +19,11 @@ import me.crastchet.filters.BundleFilter;
 
 public class MyObservable extends Observable {
 	
-	private BundleContext context;
+	private BundleContext context;				//our context
 	private File directory;						//directory to watch
 	
-	private File[]  newFiles;
-	private HashMap<String, Bundle> bundles;
+	private File[]  newFiles;					//where we store the new scanned directory files
+	private HashMap<String, Bundle> bundles;	//bundles linked to a filename.jar
 	private HashMap<String, Long> dates;		//dates (as a Long) linked to a filename.jar
 	
 	private BundleFilter filter;				//enables to filter bundle files (at least .jar files)

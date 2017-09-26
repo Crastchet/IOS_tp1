@@ -13,16 +13,21 @@ public class Activator implements BundleActivator {
 
 	MyObservable myObservable;
 	
+	// UBUNTU Maison : /home/thibault/School/IOS/auto-deploy/my_bundles/
+	// WINDOWS Portable : E:\\Code\\Java\\Workspace_IOS\\auto-deploy\\my_bundles
+	String pathDirectory = "/home/thibault/School/IOS/auto-deploy/my_bundles/";
+	
     public void start(BundleContext context) throws Exception {
-    	// Ubuntu MAISON : /home/thibault/School/IOS/auto-deploy/my_bundles/
-    	// Windows PORTABLE : E:\\Code\\Java\\Workspace_IOS\\auto-deploy\\my_bundles
-        myObservable = new MyObservable( context, "//home/thibault/School/IOS/helloworld-bundle/target" );
+        myObservable = new MyObservable( context, pathDirectory );
+        
         AddBundleObserver addObserver = new AddBundleObserver();
         RemoveBundleObserver remObserver = new RemoveBundleObserver();
         UpdateBundleObserver updObserver = new UpdateBundleObserver();
+        
         myObservable.addObserver(addObserver);
         myObservable.addObserver(remObserver);
         myObservable.addObserver(updObserver);
+        
         myObservable.init();
     }
 
