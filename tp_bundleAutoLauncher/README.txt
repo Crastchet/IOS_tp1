@@ -1,3 +1,7 @@
+A program that reads in a specific folder. When a new bundle .jar file is added or removed, it deploys or undeploys it automatically. It acts as a plugin system.
+-----------------------------------------------------------------------------------------------------------------------
+
+
 Dossier à chercher que j'ai ciblé :
 UBUNTU : /home/thibault/School/IOS/auto-deploy/my_bundles/
 WINDOWS : E:\\Code\\Java\\Workspace_IOS\\auto-deploy\\my_bundles
